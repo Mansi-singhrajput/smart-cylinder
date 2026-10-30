@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Profile | Smart Cylinder Booking System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <span class="logo-icon">🔥</span>
+          <span class="logo-text">Smart<strong>Cylinder</strong></span>
+        </a>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="dashboard.html"><span class="menu-icon">📊</span> Dashboard</a></li>
+        <li><a href="book-cylinder.html"><span class="menu-icon">🛢️</span> Book Cylinder</a></li>
+        <li><a href="booking-history.html"><span class="menu-icon">📜</span> Booking History</a></li>
+        <li><a href="track-order.html"><span class="menu-icon">📍</span> Live Tracking</a></li>
+        <li><a href="profile.html" class="active"><span class="menu-icon">👤</span> My Profile</a></li>
+        <li><a href="index.html#features"><span class="menu-icon">✨</span> Key Features</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar-sm" id="user-avatar-initials">U</div>
+          <div class="user-info-text">
+            <h5 id="sidebar-user-name">Customer</h5>
+            <p id="sidebar-consumer-no">LPG-XXXX</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="page-header">
+        <div class="page-title">
+          <h1>Account & LPG Connection Profile</h1>
+          <p>Update personal information, address for delivery, and connection security.</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+        
+        <!-- Left: Edit Form -->
+        <div class="card">
+          <div class="card-header">
+            <h3>Personal & Contact Details</h3>
+          </div>
+
+          <form id="profile-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="consumerNo">Consumer Identification Number</label>
+                <input type="text" id="consumerNo" class="form-control" readonly style="background: #f1f5f9; font-weight: 700; color: var(--primary);">
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address (Registered)</label>
+                <input type="email" id="email" class="form-control" readonly style="background: #f1f5f9;">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input type="text" id="fullName" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number (+91)</label>
+                <input type="tel" id="phone" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Delivery Street Address</label>
+              <textarea id="address" class="form-control" rows="2" required></textarea>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="city">City / District</label>
+                <input type="text" id="city" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="pincode">Postal Pincode</label>
+                <input type="text" id="pincode" class="form-control" required>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="distributorName">Allocated LPG Distributor Agency</label>
+              <input type="text" id="distributorName" class="form-control">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg" style="margin-top: 10px;">
+              💾 Save Profile Changes
+            </button>
+          </form>
+        </div>
+
+        <!-- Right: Status Card & Password Update -->
+        <div>
+          <!-- LPG Info Card -->
+          <div class="card" style="margin-bottom: 24px;">
+            <div class="card-header">
+              <h3>Connection Status</h3>
+            </div>
+            <div style="font-size: 14px; margin-bottom: 12px;">
+              <p style="color: var(--text-muted);">Subsidy Category</p>
+              <span class="badge badge-delivered" id="subsidy-badge">Govt DBTL Eligible</span>
+            </div>
+            <div style="font-size: 14px; margin-bottom: 12px;">
+              <p style="color: var(--text-muted);">Connection Type</p>
+              <strong>Standard Domestic 14.2kg</strong>
+            </div>
+            <div style="font-size: 14px;">
+              <p style="color: var(--text-muted);">Registered On</p>
+              <span id="registered-date">Jan 2026</span>
+            </div>
+          </div>
+
+          <!-- Change Password Card -->
+          <div class="card">
+            <div class="card-header">
+              <h3>Change Password</h3>
+            </div>
+            <form id="password-form">
+              <div class="form-group">
+                <label for="newPassword">New Password</label>
+                <input type="password" id="newPassword" class="form-control" minlength="6" placeholder="Min 6 characters" required>
+              </div>
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" class="form-control" minlength="6" placeholder="Repeat password" required>
+              </div>
+              <button type="submit" class="btn btn-outline btn-block">Update Password</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    const user = DB.getCurrentUser();
+    if (!user) window.location.href = 'login.html';
+
+    // Populate Sidebar
+    document.getElementById('sidebar-user-name').innerText = user.fullName;
+    document.getElementById('sidebar-consumer-no').innerText = user.consumerNo;
+    document.getElementById('user-avatar-initials').innerText = user.fullName.split(' ').map(n=>n[0]).join('').substring(0,2);
+
+    // Populate Fields
+    document.getElementById('consumerNo').value = user.consumerNo;
+    document.getElementById('email').value = user.email;
+    document.getElementById('fullName').value = user.fullName;
+    document.getElementById('phone').value = user.phone;
+    document.getElementById('address').value = user.address;
+    document.getElementById('city').value = user.city;
+    document.getElementById('pincode').value = user.pincode;
+    document.getElementById('distributorName').value = user.distributorName || 'Indane Gas Regional Distributor';
+    document.getElementById('registered-date').innerText = formatDate(user.createdAt);
+
+    if (!user.subsidyEligible) {
+      const badge = document.getElementById('subsidy-badge');
+      badge.className = 'badge badge-pending';
+      badge.innerText = 'Non-Subsidized Quota';
+    }
+
+    // Update Profile
+    document.getElementById('profile-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      user.fullName = document.getElementById('fullName').value.trim();
+      user.phone = document.getElementById('phone').value.trim();
+      user.address = document.getElementById('address').value.trim();
+      user.city = document.getElementById('city').value.trim();
+      user.pincode = document.getElementById('pincode').value.trim();
+      user.distributorName = document.getElementById('distributorName').value.trim();
+
+      DB.updateUser(user);
+      showToast('Profile information updated successfully!', 'success');
+      document.getElementById('sidebar-user-name').innerText = user.fullName;
+    });
+
+    // Update Password
+    document.getElementById('password-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const p1 = document.getElementById('newPassword').value;
+      const p2 = document.getElementById('confirmPassword').value;
+
+      if (p1 !== p2) {
+        showToast('Passwords do not match', 'error');
+        return;
+      }
+
+      user.password = p1;
+      DB.updateUser(user);
+      showToast('Password updated successfully!', 'success');
+      document.getElementById('password-form').reset();
+    });
+  </script>
+</body>
+</html>

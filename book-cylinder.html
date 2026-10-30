@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book LPG Cylinder | Smart Cylinder Booking System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <span class="logo-icon">🔥</span>
+          <span class="logo-text">Smart<strong>Cylinder</strong></span>
+        </a>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="dashboard.html"><span class="menu-icon">📊</span> Dashboard</a></li>
+        <li><a href="book-cylinder.html" class="active"><span class="menu-icon">🛢️</span> Book Cylinder</a></li>
+        <li><a href="booking-history.html"><span class="menu-icon">📜</span> Booking History</a></li>
+        <li><a href="track-order.html"><span class="menu-icon">📍</span> Live Tracking</a></li>
+        <li><a href="profile.html"><span class="menu-icon">👤</span> My Profile</a></li>
+        <li><a href="index.html#features"><span class="menu-icon">✨</span> Key Features</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar-sm" id="user-avatar-initials">U</div>
+          <div class="user-info-text">
+            <h5 id="sidebar-user-name">Customer</h5>
+            <p id="sidebar-consumer-no">LPG-XXXX</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="page-header">
+        <div class="page-title">
+          <h1>Book LPG Cylinder Refill</h1>
+          <p>Choose your cylinder category, apply direct subsidies, and schedule delivery.</p>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 30px;">
+        <!-- Left: Form -->
+        <div class="card">
+          <div class="card-header">
+            <h3>1. Refill & Delivery Details</h3>
+          </div>
+
+          <form id="booking-form">
+            <div class="form-group">
+              <label for="cylinderSelect">Select Cylinder Type & Weight</label>
+              <select id="cylinderSelect" class="form-control" style="font-size: 15px; font-weight: 600;" required>
+                <!-- Populated via JS -->
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="deliveryAddress">Delivery Address</label>
+              <textarea id="deliveryAddress" class="form-control" rows="3" required></textarea>
+              <small style="color: var(--text-muted);">Default connection address prefilled. You can update it for this delivery.</small>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="deliveryDate">Preferred Delivery Date</label>
+                <input type="date" id="deliveryDate" class="form-control" required>
+              </div>
+              <div class="form-group">
+                <label for="deliverySlot">Preferred Time Slot</label>
+                <select id="deliverySlot" class="form-control">
+                  <option value="Morning">Morning (09:00 AM - 01:00 PM)</option>
+                  <option value="Afternoon">Afternoon (01:00 PM - 05:00 PM)</option>
+                  <option value="Evening">Evening (05:00 PM - 08:00 PM)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-check" id="subsidy-check-container" style="background: var(--primary-light); padding: 14px; border-radius: var(--radius-md); border: 1px dashed var(--primary);">
+              <input type="checkbox" id="subsidyOpted" checked>
+              <label for="subsidyOpted">
+                <strong style="color: var(--primary);">Apply Government DBTL Subsidy (Save ₹200)</strong><br>
+                Eligible under Pradhan Mantri Ujjwala / Standard Domestic LPG subsidy quota.
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label for="bookingNotes">Delivery Instructions (Optional)</label>
+              <input type="text" id="bookingNotes" class="form-control" placeholder="e.g. Ring bell twice, leave with security guard, etc.">
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg" style="margin-top: 20px;">
+              Proceed to Secure Payment →
+            </button>
+          </form>
+        </div>
+
+        <!-- Right: Order Summary Sticky Card -->
+        <div>
+          <div class="card" style="position: sticky; top: 30px;">
+            <div class="card-header">
+              <h3>Order Summary</h3>
+            </div>
+            
+            <div style="text-align: center; margin-bottom: 20px;">
+              <span id="summary-icon" style="font-size: 50px;">🛢️</span>
+              <h4 id="summary-title" style="margin-top: 8px;">Domestic LPG</h4>
+              <p id="summary-weight" style="font-size: 13px; color: var(--text-muted);">14.2 kg Net Weight</p>
+            </div>
+
+            <div style="border-top: 1px solid var(--border-color); padding-top: 16px;">
+              <div class="invoice-summary-row" style="margin-bottom: 10px;">
+                <span>Refill Base Rate:</span>
+                <strong id="summary-base-price">₹850.00</strong>
+              </div>
+              <div class="invoice-summary-row" style="margin-bottom: 10px; color: var(--success);" id="summary-subsidy-row">
+                <span>Govt Subsidy:</span>
+                <strong id="summary-subsidy-discount">- ₹200.00</strong>
+              </div>
+              <div class="invoice-summary-row" style="margin-bottom: 10px;">
+                <span>Doorstep Delivery Fee:</span>
+                <span>₹50.00</span>
+              </div>
+              <div class="invoice-summary-row total" style="margin-top: 14px;">
+                <span>Total Amount:</span>
+                <span id="summary-total-price">₹700.00</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 24px; font-size: 12px; color: var(--text-muted); background: #f8fafc; padding: 12px; border-radius: var(--radius-md);">
+              🔒 256-bit Encrypted Checkout. Free cancellation before dispatch. Guaranteed certified safe cylinder.
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Auth Check
+    const user = DB.getCurrentUser();
+    if (!user) window.location.href = 'login.html';
+
+    // Populate Sidebar
+    document.getElementById('sidebar-user-name').innerText = user.fullName;
+    document.getElementById('sidebar-consumer-no').innerText = user.consumerNo;
+    document.getElementById('user-avatar-initials').innerText = user.fullName.split(' ').map(n=>n[0]).join('').substring(0,2);
+    document.getElementById('deliveryAddress').value = `${user.address}, ${user.city} - ${user.pincode}`;
+
+    // Set Default Delivery Date to Tomorrow
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('deliveryDate').value = tomorrow.toISOString().split('T')[0];
+    document.getElementById('deliveryDate').min = tomorrow.toISOString().split('T')[0];
+
+    // Populate Cylinders Select
+    const cylinders = DB.getCylinders();
+    const select = document.getElementById('cylinderSelect');
+    
+    // Check URL query param for preselected cylinder id
+    const urlParams = new URLSearchParams(window.location.search);
+    const preselectedId = urlParams.get('id');
+
+    select.innerHTML = cylinders.map(c => `
+      <option value="${c.cylinderId}" ${preselectedId && parseInt(preselectedId) === c.cylinderId ? 'selected' : ''}>
+        ${c.cylinderType} (${c.weightKg} kg) - ₹${c.price} [Stock: ${c.stockQuantity}]
+      </option>
+    `).join('');
+
+    function updateSummary() {
+      const selectedId = parseInt(select.value);
+      const c = cylinders.find(item => item.cylinderId === selectedId) || cylinders[0];
+      const isSubsidized = document.getElementById('subsidyOpted').checked && c.subsidyAmount > 0 && user.subsidyEligible;
+
+      document.getElementById('summary-icon').innerText = c.icon || '🛢️';
+      document.getElementById('summary-title').innerText = c.cylinderType;
+      document.getElementById('summary-weight').innerText = `${c.weightKg} kg Net Certified Weight`;
+      document.getElementById('summary-base-price').innerText = formatCurrency(c.price);
+
+      const subsidyContainer = document.getElementById('subsidy-check-container');
+      const subsidyRow = document.getElementById('summary-subsidy-row');
+
+      if (c.subsidyAmount > 0 && user.subsidyEligible) {
+        subsidyContainer.style.display = 'flex';
+        subsidyRow.style.display = 'flex';
+        document.getElementById('summary-subsidy-discount').innerText = `- ${formatCurrency(c.subsidyAmount)}`;
+      } else {
+        subsidyContainer.style.display = 'none';
+        subsidyRow.style.display = 'none';
+      }
+
+      const discount = isSubsidized ? c.subsidyAmount : 0;
+      const total = c.price - discount + 50;
+      document.getElementById('summary-total-price').innerText = formatCurrency(total);
+    }
+
+    select.addEventListener('change', updateSummary);
+    document.getElementById('subsidyOpted').addEventListener('change', updateSummary);
+    updateSummary();
+
+    // Submit Booking
+    document.getElementById('booking-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const selectedId = parseInt(select.value);
+      const c = DB.getCylinderById(selectedId);
+
+      if (!c || c.stockQuantity <= 0) {
+        showToast('Selected cylinder is out of stock', 'error');
+        return;
+      }
+
+      const isSubsidized = document.getElementById('subsidyOpted').checked && c.subsidyAmount > 0 && user.subsidyEligible;
+      const discount = isSubsidized ? c.subsidyAmount : 0;
+      const deliveryCharge = 50;
+      const total = c.price - discount + deliveryCharge;
+
+      const randomRef = Math.floor(1000 + Math.random() * 9000);
+      const bookingRef = `BK-${new Date().getFullYear()}-${randomRef}`;
+
+      const newBooking = {
+        bookingReference: bookingRef,
+        userId: user.userId,
+        cylinderId: c.cylinderId,
+        cylinderType: c.cylinderType,
+        weightKg: c.weightKg,
+        bookingDate: new Date().toISOString(),
+        expectedDeliveryDate: document.getElementById('deliveryDate').value,
+        actualDeliveryDate: null,
+        deliveryAddress: document.getElementById('deliveryAddress').value.trim(),
+        status: 'PENDING',
+        paymentStatus: 'PENDING',
+        subsidyOpted: isSubsidized,
+        basePrice: c.price,
+        subsidyDiscount: discount,
+        deliveryCharge: deliveryCharge,
+        totalAmount: total,
+        driverName: 'Suresh Yadav',
+        driverPhone: '9876098765'
+      };
+
+      DB.createBooking(newBooking);
+      DB.decrementStock(c.cylinderId, 1);
+
+      showToast('Booking created! Redirecting to payment...', 'success');
+      setTimeout(() => {
+        window.location.href = `payment.html?ref=${bookingRef}`;
+      }, 700);
+    });
+  </script>
+</body>
+</html>

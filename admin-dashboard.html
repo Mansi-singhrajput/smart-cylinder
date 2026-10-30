@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Smart Cylinder Booking System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Admin Sidebar -->
+    <aside class="sidebar" style="border-right-color: #e2e8f0;">
+      <div class="sidebar-header">
+        <a href="admin-dashboard.html" class="brand-logo">
+          <span class="logo-icon">🛡️</span>
+          <span class="logo-text">Smart<strong>Admin</strong></span>
+        </a>
+      </div>
+      <ul class="sidebar-menu">
+        <li><a href="admin-dashboard.html" class="active"><span class="menu-icon">📊</span> Overview Analytics</a></li>
+        <li><a href="admin-bookings.html"><span class="menu-icon">📦</span> Manage Bookings</a></li>
+        <li><a href="admin-customers.html"><span class="menu-icon">👥</span> Customer Directory</a></li>
+        <li><a href="admin-cylinders.html"><span class="menu-icon">🛢️</span> Inventory & Pricing</a></li>
+        <li><a href="index.html" target="_blank"><span class="menu-icon">🌐</span> View Public Site</a></li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar-sm" style="background: #e0f2fe; color: #0284c7;">AD</div>
+          <div class="user-info-text">
+            <h5 id="admin-name">Admin</h5>
+            <p id="admin-role">Super Admin</p>
+          </div>
+        </div>
+        <button onclick="adminLogout()" title="Logout Admin" style="background: none; border: none; cursor: pointer; font-size: 18px; color: var(--danger);">🚪</button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <div class="page-header">
+        <div class="page-title">
+          <h1>Agency Operations Dashboard</h1>
+          <p>Real-time telemetry of cylinder bookings, fulfillment logistics, and revenue.</p>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <a href="admin-bookings.html" class="btn btn-primary">Manage All Bookings →</a>
+        </div>
+      </div>
+
+      <!-- 6 Metrics Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue">👥</div>
+          <div class="stat-details">
+            <h4>Registered Customers</h4>
+            <div class="stat-number" id="adm-total-users">0</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange">📦</div>
+          <div class="stat-details">
+            <h4>Total Refill Orders</h4>
+            <div class="stat-number" id="adm-total-bookings">0</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">🚚</div>
+          <div class="stat-details">
+            <h4>Pending / In Transit</h4>
+            <div class="stat-number" id="adm-pending-deliveries">0</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">✅</div>
+          <div class="stat-details">
+            <h4>Delivered Safely</h4>
+            <div class="stat-number" id="adm-delivered-count">0</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">💰</div>
+          <div class="stat-details">
+            <h4>Revenue Realized</h4>
+            <div class="stat-number" id="adm-total-revenue">₹0</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">🛢️</div>
+          <div class="stat-details">
+            <h4>Cylinders In Stock</h4>
+            <div class="stat-number" id="adm-total-stock">0</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Customer Bookings Table -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Active Customer Refill Orders</h3>
+          <a href="admin-bookings.html" class="btn btn-outline btn-sm">Full Management Table →</a>
+        </div>
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Booking Ref</th>
+                <th>Customer Name</th>
+                <th>Cylinder</th>
+                <th>Booking Date</th>
+                <th>Delivery Address</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Change Status</th>
+              </tr>
+            </thead>
+            <tbody id="admin-recent-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Inventory Stock Status Quick Glance -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Warehouse Cylinder Stock Status</h3>
+          <a href="admin-cylinders.html" class="btn btn-outline btn-sm">Edit Inventory & Prices →</a>
+        </div>
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Cylinder Type</th>
+                <th>Weight</th>
+                <th>Base Price</th>
+                <th>Govt Subsidy</th>
+                <th>Available Units</th>
+                <th>Stock Health</th>
+              </tr>
+            </thead>
+            <tbody id="admin-stock-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    const admin = DB.getCurrentAdmin();
+    if (!admin) window.location.href = 'admin-login.html';
+
+    document.getElementById('admin-name').innerText = admin.fullName;
+    document.getElementById('admin-role').innerText = admin.role;
+
+    // Load Stats
+    const stats = DB.getDashboardStats();
+    document.getElementById('adm-total-users').innerText = stats.totalUsers;
+    document.getElementById('adm-total-bookings').innerText = stats.totalBookings;
+    document.getElementById('adm-pending-deliveries').innerText = stats.pendingDeliveries;
+    document.getElementById('adm-delivered-count').innerText = stats.deliveredCount;
+    document.getElementById('adm-total-revenue').innerText = formatCurrency(stats.totalRevenue);
+    document.getElementById('adm-total-stock').innerText = stats.totalStock;
+
+    // Render Recent Bookings
+    function renderBookings() {
+      const bookings = DB.getBookings().slice(0, 8);
+      const tbody = document.getElementById('admin-recent-tbody');
+      tbody.innerHTML = bookings.map(b => {
+        const u = DB.getUserById(b.userId) || { fullName: 'Customer', phone: '' };
+        return `
+          <tr>
+            <td><strong>${b.bookingReference}</strong></td>
+            <td>
+              ${u.fullName}<br>
+              <small style="color: var(--text-muted);">${u.phone}</small>
+            </td>
+            <td>${b.cylinderType}</td>
+            <td>${formatDate(b.bookingDate)}</td>
+            <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${b.deliveryAddress}</td>
+            <td><strong>${formatCurrency(b.totalAmount)}</strong></td>
+            <td>${getStatusBadge(b.status)}</td>
+            <td>
+              <select class="form-control" style="padding: 4px 8px; font-size: 12px; width: auto;" onchange="updateStatus(${b.bookingId}, this.value)">
+                <option value="PENDING" ${b.status === 'PENDING' ? 'selected' : ''}>Pending</option>
+                <option value="CONFIRMED" ${b.status === 'CONFIRMED' ? 'selected' : ''}>Confirmed</option>
+                <option value="DISPATCHED" ${b.status === 'DISPATCHED' ? 'selected' : ''}>Dispatched</option>
+                <option value="OUT_FOR_DELIVERY" ${b.status === 'OUT_FOR_DELIVERY' ? 'selected' : ''}>Out for Delivery</option>
+                <option value="DELIVERED" ${b.status === 'DELIVERED' ? 'selected' : ''}>Delivered</option>
+                <option value="CANCELLED" ${b.status === 'CANCELLED' ? 'selected' : ''}>Cancelled</option>
+              </select>
+            </td>
+          </tr>
+        `;
+      }).join('');
+    }
+
+    function updateStatus(bookingId, newStatus) {
+      DB.updateBookingStatus(bookingId, newStatus);
+      showToast(`Booking status changed to ${newStatus}`, 'success');
+      renderBookings();
+    }
+
+    renderBookings();
+
+    // Render Cylinders Stock
+    const cylinders = DB.getCylinders();
+    document.getElementById('admin-stock-tbody').innerHTML = cylinders.map(c => {
+      const isLow = c.stockQuantity < 30;
+      return `
+        <tr>
+          <td><strong>${c.cylinderType}</strong></td>
+          <td>${c.weightKg} kg</td>
+          <td>${formatCurrency(c.price)}</td>
+          <td>${c.subsidyAmount > 0 ? formatCurrency(c.subsidyAmount) : 'None'}</td>
+          <td><strong>${c.stockQuantity} units</strong></td>
+          <td>
+            <span class="badge ${isLow ? 'badge-cancelled' : 'badge-delivered'}">
+              ${isLow ? '⚠️ Low Stock' : '✔️ Optimal Supply'}
+            </span>
+          </td>
+        </tr>
+      `;
+    }).join('');
+
+    function adminLogout() {
+      DB.logoutAdmin();
+      showToast('Admin signed out', 'info');
+      setTimeout(() => window.location.href = 'admin-login.html', 500);
+    }
+  </script>
+</body>
+</html>

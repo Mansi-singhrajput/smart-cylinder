@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Dashboard | Smart Cylinder Booking System</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="dashboard-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <a href="index.html" class="brand-logo">
+          <span class="logo-icon">🔥</span>
+          <span class="logo-text">Smart<strong>Cylinder</strong></span>
+        </a>
+      </div>
+
+      <ul class="sidebar-menu">
+        <li><a href="dashboard.html" class="active"><span class="menu-icon">📊</span> Dashboard</a></li>
+        <li><a href="book-cylinder.html"><span class="menu-icon">🛢️</span> Book Cylinder</a></li>
+        <li><a href="booking-history.html"><span class="menu-icon">📜</span> Booking History</a></li>
+        <li><a href="track-order.html"><span class="menu-icon">📍</span> Live Tracking</a></li>
+        <li><a href="profile.html"><span class="menu-icon">👤</span> My Profile</a></li>
+        <li><a href="index.html#features"><span class="menu-icon">✨</span> Key Features</a></li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-snippet">
+          <div class="user-avatar-sm" id="user-avatar-initials">U</div>
+          <div class="user-info-text">
+            <h5 id="sidebar-user-name">Customer</h5>
+            <p id="sidebar-consumer-no">LPG-XXXX</p>
+          </div>
+        </div>
+        <button onclick="logout()" title="Logout" style="background: none; border: none; cursor: pointer; font-size: 18px; color: var(--danger);">🚪</button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <div class="page-header">
+        <div class="page-title">
+          <h1 id="welcome-msg">Welcome, Customer!</h1>
+          <p>Manage your gas connection, book refills, and track deliveries in real time.</p>
+        </div>
+        <div>
+          <a href="book-cylinder.html" class="btn btn-primary btn-lg">➕ Book New Cylinder</a>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon orange">🛢️</div>
+          <div class="stat-details">
+            <h4>Total Refills Booked</h4>
+            <div class="stat-number" id="stat-total-bookings">0</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue">🚚</div>
+          <div class="stat-details">
+            <h4>Active Deliveries</h4>
+            <div class="stat-number" id="stat-active-deliveries">0</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">💰</div>
+          <div class="stat-details">
+            <h4>Govt Subsidy Saved</h4>
+            <div class="stat-number" id="stat-subsidy-saved">₹0</div>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple">🏷️</div>
+          <div class="stat-details">
+            <h4>Consumer ID</h4>
+            <div class="stat-number" style="font-size: 16px; font-weight: 700;" id="stat-consumer-id">LPG-XXXX</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Order Real-Time Tracker Widget -->
+      <div id="active-order-container">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Recent Bookings Card -->
+      <div class="card">
+        <div class="card-header">
+          <h3>Recent Booking Records</h3>
+          <a href="booking-history.html" class="btn btn-outline btn-sm">View All History →</a>
+        </div>
+        <div class="table-responsive">
+          <table class="custom-table">
+            <thead>
+              <tr>
+                <th>Booking Ref</th>
+                <th>Cylinder Type</th>
+                <th>Booking Date</th>
+                <th>Delivery Address</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="recent-bookings-tbody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Authentication Guard
+    const user = DB.getCurrentUser();
+    if (!user) {
+      window.location.href = 'login.html';
+    }
+
+    // Populate User Details
+    document.getElementById('welcome-msg').innerText = `Welcome back, ${user.fullName}!`;
+    document.getElementById('sidebar-user-name').innerText = user.fullName;
+    document.getElementById('sidebar-consumer-no').innerText = user.consumerNo;
+    document.getElementById('stat-consumer-id').innerText = user.consumerNo;
+    document.getElementById('user-avatar-initials').innerText = user.fullName.split(' ').map(n=>n[0]).join('').substring(0,2);
+
+    // Calculate Statistics
+    const userBookings = DB.getBookingsByUserId(user.userId);
+    document.getElementById('stat-total-bookings').innerText = userBookings.length;
+
+    const activeList = userBookings.filter(b => ['PENDING', 'CONFIRMED', 'DISPATCHED', 'OUT_FOR_DELIVERY'].includes(b.status));
+    document.getElementById('stat-active-deliveries').innerText = activeList.length;
+
+    const subsidyTotal = userBookings.reduce((sum, b) => sum + (b.subsidyDiscount || 0), 0);
+    document.getElementById('stat-subsidy-saved').innerText = formatCurrency(subsidyTotal);
+
+    // Render Active Order Tracking Widget
+    const activeOrderContainer = document.getElementById('active-order-container');
+    if (activeList.length > 0) {
+      const activeBooking = activeList[0];
+      const steps = [
+        { key: 'PENDING', title: 'Order Placed', desc: 'Booking received & under review' },
+        { key: 'CONFIRMED', title: 'Confirmed', desc: 'Assigned to bottling agency' },
+        { key: 'DISPATCHED', title: 'Dispatched', desc: 'Loaded onto delivery truck' },
+        { key: 'OUT_FOR_DELIVERY', title: 'Out for Delivery', desc: 'Driver en route to your home' },
+        { key: 'DELIVERED', title: 'Delivered', desc: 'Completed safely' }
+      ];
+
+      const stepKeys = ['PENDING', 'CONFIRMED', 'DISPATCHED', 'OUT_FOR_DELIVERY', 'DELIVERED'];
+      const currentIndex = stepKeys.indexOf(activeBooking.status);
+
+      activeOrderContainer.innerHTML = `
+        <div class="tracking-card">
+          <div class="tracking-header">
+            <div>
+              <span class="badge badge-popular" style="margin-bottom: 6px;">Live Delivery Status</span>
+              <h2 style="font-size: 20px;">Ref: ${activeBooking.bookingReference} &bull; ${activeBooking.cylinderType}</h2>
+              <p style="color: var(--text-muted); font-size: 13px;">Expected Delivery by <strong>${formatDate(activeBooking.expectedDeliveryDate)}</strong> to: ${activeBooking.deliveryAddress}</p>
+            </div>
+            <div>
+              <a href="track-order.html?ref=${activeBooking.bookingReference}" class="btn btn-primary">Detailed Live Map View →</a>
+            </div>
+          </div>
+
+          <div class="stepper-container">
+            ${steps.map((st, idx) => {
+              let stateClass = '';
+              if (idx < currentIndex) stateClass = 'completed';
+              else if (idx === currentIndex) stateClass = 'active';
+              return `
+                <div class="step-item ${stateClass}">
+                  <div class="step-circle">${idx < currentIndex ? '✓' : idx + 1}</div>
+                  <div class="step-title">${st.title}</div>
+                  <div class="step-desc">${st.desc}</div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+
+          ${activeBooking.driverName ? `
+            <div class="driver-banner">
+              <div class="driver-meta">
+                <div class="driver-avatar">🛵</div>
+                <div>
+                  <h4 style="font-size: 14px; margin-bottom: 2px;">Assigned Delivery Agent: <strong>${activeBooking.driverName}</strong></h4>
+                  <p style="font-size: 12px; color: var(--text-muted);">Contact: +91 ${activeBooking.driverPhone} | Vehicle: Clean Gas Transport</p>
+                </div>
+              </div>
+              <a href="tel:${activeBooking.driverPhone}" class="btn btn-outline btn-sm">📞 Call Delivery Agent</a>
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    // Render Recent Bookings
+    const tbody = document.getElementById('recent-bookings-tbody');
+    if (userBookings.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align: center; padding: 40px; color: var(--text-muted);">
+            No bookings found yet. Click <strong>"Book New Cylinder"</strong> to order your first refill!
+          </td>
+        </tr>
+      `;
+    } else {
+      tbody.innerHTML = userBookings.slice(0, 5).map(b => `
+        <tr>
+          <td><strong>${b.bookingReference}</strong></td>
+          <td>${b.cylinderType}</td>
+          <td>${formatDate(b.bookingDate)}</td>
+          <td style="max-width: 250px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${b.deliveryAddress}</td>
+          <td><strong>${formatCurrency(b.totalAmount)}</strong></td>
+          <td>${getStatusBadge(b.status)}</td>
+          <td>
+            <div style="display: flex; gap: 8px;">
+              <button onclick="openInvoiceModal('${b.bookingReference}')" class="btn btn-outline btn-sm" title="View Digital Bill">🧾 Bill</button>
+              <a href="track-order.html?ref=${b.bookingReference}" class="btn btn-secondary-subtle btn-sm">📍 Track</a>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function logout() {
+      DB.logoutUser();
+      showToast('Logged out successfully', 'info');
+      setTimeout(() => window.location.href = 'index.html', 500);
+    }
+  </script>
+</body>
+</html>

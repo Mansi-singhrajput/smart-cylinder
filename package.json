@@ -1,0 +1,13 @@
+{
+  "name": "smart-cylinder-booking-system",
+  "version": "1.0.0",
+  "description": "Smart LPG Gas Cylinder Booking, Tracking, and Management System",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["lpg", "cylinder-booking", "java", "jsp", "servlet", "fullstack"],
+  "author": "Avanya Sinha, Mansi Kumari, Deepshikha Kumari, Chanchal Goyal, Kashish Kumari",
+  "license": "MIT"
+}

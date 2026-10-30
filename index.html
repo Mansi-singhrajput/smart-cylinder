@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Cylinder Booking System | Easy Online LPG Booking</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="brand-logo">
+        <span class="logo-icon">🔥</span>
+        <span class="logo-text">Smart<strong>Cylinder</strong></span>
+      </a>
+      <nav class="nav-links">
+        <a href="#services" onclick="scrollToSection(event, 'services')">Cylinder Catalog</a>
+        <a href="#features" onclick="scrollToSection(event, 'features')" id="nav-key-features" style="color: var(--primary); font-weight: 700;">✨ Key Features</a>
+        <a href="#safety" onclick="scrollToSection(event, 'safety')">Safety Tips</a>
+        <a href="#team" onclick="scrollToSection(event, 'team')">Project Team</a>
+        <div id="auth-buttons" style="display: flex; gap: 10px; align-items: center;">
+          <a href="login.html" class="btn btn-outline">Customer Login</a>
+          <a href="register.html" class="btn btn-primary">Book Now</a>
+          <a href="admin-login.html" class="btn btn-secondary-subtle">Admin Portal</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="hero-badge">⚡ Real-Time Online LPG Cylinder Booking System</div>
+      <h1 class="hero-title">Book Your LPG Cylinder in Seconds. Fast, Safe & Subsidized.</h1>
+      <p class="hero-subtitle">
+        Say goodbye to long queues and paper receipts. Register online, order your domestic or commercial cylinder, track live doorstep delivery, and enjoy direct DBT government subsidies.
+      </p>
+      <div class="hero-cta">
+        <a href="register.html" class="btn btn-primary btn-lg">🚀 Get Started / New Connection</a>
+        <a href="login.html" class="btn btn-outline btn-lg">🔑 Existing User Login</a>
+        <a href="admin-login.html" class="btn btn-secondary btn-lg">🛡️ Admin Dashboard</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <h3>24-48 Hrs</h3>
+          <p>Doorstep Delivery Guarantee</p>
+        </div>
+        <div class="stat-item">
+          <h3>₹200</h3>
+          <p>Instant Direct DBT Subsidy</p>
+        </div>
+        <div class="stat-item">
+          <h3>100%</h3>
+          <p>Safety Verified Cylinders</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cylinders Catalog Section -->
+  <section id="services" class="catalog-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Available Cylinder Types</h2>
+        <p>Choose from our certified range of domestic, commercial, and portable LPG cylinders.</p>
+      </div>
+      <div class="cards-grid" id="cylinder-catalog-grid">
+        <!-- Rendered via JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Key Features Section (Interactive & Clickable) -->
+  <section id="features" class="features-section" style="background: #ffffff; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color);">
+    <div class="container">
+      <div class="section-header">
+        <span class="hero-badge" style="margin-bottom: 10px;">⚡ Click Any Feature to Try Live</span>
+        <h2>Key Features of Smart Cylinder</h2>
+        <p>Explore the end-to-end capabilities designed to automate and modernize LPG distribution.</p>
+      </div>
+      <div class="safety-grid" style="grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));">
+        
+        <!-- 1. Instant 1-Click Booking -->
+        <a href="book-cylinder.html" class="feature-card-clickable" id="feature-card-booking" title="Click to Book a Cylinder">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <span class="safety-icon" style="font-size: 36px;">📱</span>
+            <span class="badge badge-popular">Live Feature</span>
+          </div>
+          <h4>Instant 1-Click Refill Booking</h4>
+          <p>Select your domestic 14.2kg or commercial 19kg cylinder, pick preferred delivery slots, and book in under 30 seconds.</p>
+          <div class="feature-action-btn">
+            <span>🚀 Book Refill Online</span> →
+          </div>
+        </a>
+
+        <!-- 2. Live Order Tracking -->
+        <a href="track-order.html?ref=BK-2026-9042" class="feature-card-clickable" id="feature-card-tracking" title="Click to View Live Radar Map">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <span class="safety-icon" style="font-size: 36px;">📍</span>
+            <span class="badge badge-confirmed">Interactive Radar</span>
+          </div>
+          <h4>Real-Time Delivery Tracking</h4>
+          <p>Watch your cylinder journey from order acceptance, bottling depot dispatch, to doorstep delivery with assigned driver contact.</p>
+          <div class="feature-action-btn">
+            <span>🗺️ Track Live Delivery</span> →
+          </div>
+        </a>
+
+        <!-- 3. Multi-Channel Payment Gateway -->
+        <div class="feature-card-clickable" onclick="openPaymentDemoModal()" id="feature-card-payment" title="Click to Test Payment Gateway" style="cursor: pointer;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <span class="safety-icon" style="font-size: 36px;">💳</span>
+            <span class="badge badge-delivered">Multi-Mode</span>
+          </div>
+          <h4>Secure Instant Payments</h4>
+          <p>Seamless checkout via dynamic UPI QR code (Google Pay, PhonePe, Paytm), Debit/Credit Cards, Net Banking, or Pay on Delivery (COD).</p>
+          <div class="feature-action-btn">
+            <span>📲 Test Payment Gateway</span> →
+          </div>
+        </div>
+
+        <!-- 4. Digital GST Invoices -->
+        <div class="feature-card-clickable" onclick="openInvoiceModal('BK-2026-9041')" id="feature-card-invoice" title="Click to View & Print Bill" style="cursor: pointer;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <span class="safety-icon" style="font-size: 36px;">🧾</span>
+            <span class="badge badge-dispatched">Print Ready</span>
+          </div>
+          <h4>Instant Computerized Bill & Receipt</h4>
+          <p>Download, view, and print official computerized tax invoices for accounting, subsidy tracking, and household records.</p>
+          <div class="feature-action-btn">
+            <span>🖨️ View & Print Sample Bill</span> →
+          </div>
+        </div>
+
+        <!-- 5. Govt DBTL Subsidy -->
+        <div class="feature-card-clickable" onclick="openSubsidyModal()" id="feature-card-subsidy" title="Click to Check Subsidy Benefit" style="cursor: pointer;">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <span class="safety-icon" style="font-size: 36px;">💰</span>
+            <span class="badge badge-delivered">₹200 Off</span>
+          </div>
+          <h4>Direct Benefit Transfer (DBTL)</h4>
+          <p>Eligible households receive direct ₹200 government subsidy discount per refill automatically credited on bill generation.</p>
+          <div class="feature-action-btn">
+            <span>🏷️ Check Subsidy Rules</span> →
+          </div>
+        </div>
+
+        <!-- 6. Admin Control Center -->
+        <a href="admin-login.html" class="feature-card-clickable" id="feature-card-admin" title="Click to Open Admin Portal">
+          <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+            <span class="safety-icon" style="font-size: 36px;">🛡️</span>
+            <span class="badge badge-popular">Admin Panel</span>
+          </div>
+          <h4>Operations & Stock Logistics</h4>
+          <p>Comprehensive agency dashboard for live order fulfillment, driver dispatch, consumer verification, and inventory replenishment.</p>
+          <div class="feature-action-btn">
+            <span>🔐 Access Admin Portal</span> →
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Safety Tips Section -->
+  <section id="safety" class="safety-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>LPG Safety & Precaution Guidelines</h2>
+        <p>Follow standard safety norms to keep your family and home protected.</p>
+      </div>
+      <div class="safety-grid">
+        <div class="safety-card">
+          <span class="safety-icon">👃</span>
+          <h4>Gas Leakage Precautions</h4>
+          <p>If you detect the smell of LPG (Ethyl Mercaptan), do not turn electrical switches on or off. Extinguish all open flames and open windows immediately.</p>
+        </div>
+        <div class="safety-card">
+          <span class="safety-icon">🛡️</span>
+          <h4>Check Safety Seal & Weight</h4>
+          <p>Ensure the white plastic safety cap and seal are intact upon delivery. Check the tare weight stamped on cylinder collar ring.</p>
+        </div>
+        <div class="safety-card">
+          <span class="safety-icon">🔝</span>
+          <h4>Always Keep Upright</h4>
+          <p>Store cylinders vertically on a flat, firm surface at ground level. Never keep cylinders horizontally or in confined basements.</p>
+        </div>
+        <div class="safety-card">
+          <span class="safety-icon">🚨</span>
+          <h4>Emergency Helpline: 1906</h4>
+          <p>Dial national 24-hour toll-free emergency helpline 1906 for immediate dispatch of emergency leak technicians.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Project Team Section -->
+  <section id="team" class="team-section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Project Design & Engineering Team</h2>
+        <p>Project Design Report (PDR) - Smart Cylinder Booking System</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="avatar">AS</div>
+          <h4>Avanya Sinha</h4>
+          <span style="color: var(--primary); font-weight: 700;">Frontend & UI/UX Design</span>
+        </div>
+        <div class="team-card">
+          <div class="avatar">MK</div>
+          <h4>Mansi Kumari</h4>
+          <span style="color: var(--primary); font-weight: 700;">Database Engineering & SQL</span>
+        </div>
+        <div class="team-card">
+          <div class="avatar">DK</div>
+          <h4>Deepshikha Kumari</h4>
+          <span style="color: var(--primary); font-weight: 700;">Backend Java Servlets Logic</span>
+        </div>
+        <div class="team-card">
+          <div class="avatar">CG</div>
+          <h4>Chanchal Goyal</h4>
+          <span>System Analysis & Data Modeling</span>
+        </div>
+        <div class="team-card">
+          <div class="avatar">KK</div>
+          <h4>Kashish Kumari</h4>
+          <span>Testing & Quality Assurance</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>&copy; 2026 Smart Cylinder Booking System. Designed for academic submission and live deployment.</p>
+      <div class="footer-links">
+        <a href="admin-login.html">Admin Portal</a>
+        <a href="login.html">Customer Login</a>
+        <a href="register.html">Register Connection</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Smooth scroll helper for navbar links (Key Features, Cylinders, Safety, Team)
+    function scrollToSection(event, sectionId) {
+      if (event) event.preventDefault();
+      const target = document.getElementById(sectionId);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Visual pulse highlight
+        target.style.transition = 'background-color 0.4s ease';
+        const originalBg = target.style.backgroundColor;
+        target.style.backgroundColor = '#fff7ed';
+        setTimeout(() => {
+          target.style.backgroundColor = originalBg || '#ffffff';
+        }, 1200);
+      }
+    }
+
+    // Modal: Payment Gateway Demo
+    function openPaymentDemoModal() {
+      let modal = document.getElementById('payment-demo-modal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'payment-demo-modal';
+        modal.className = 'modal-overlay';
+        document.body.appendChild(modal);
+      }
+
+      modal.innerHTML = `
+        <div class="modal-card" style="max-width: 500px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 24px;">💳</span>
+              <h3 style="font-size: 18px;">Multi-Mode Payment Gateway</h3>
+            </div>
+            <button onclick="document.getElementById('payment-demo-modal').classList.remove('active')" style="background: none; border: none; font-size: 22px; cursor: pointer;">✕</button>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+            Smart Cylinder provides 4 secure, zero-friction payment modes for customers:
+          </p>
+          <div style="display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px;">
+            <div style="padding: 12px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 24px;">📱</span>
+              <div>
+                <strong>UPI Instant Payment</strong>
+                <p style="font-size: 12px; color: var(--text-muted);">Dynamic QR code scan via Google Pay, PhonePe, Paytm, BHIM</p>
+              </div>
+            </div>
+            <div style="padding: 12px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 24px;">💳</span>
+              <div>
+                <strong>Credit & Debit Cards</strong>
+                <p style="font-size: 12px; color: var(--text-muted);">256-bit SSL encrypted Visa, MasterCard, RuPay, Maestro</p>
+              </div>
+            </div>
+            <div style="padding: 12px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 24px;">🏦</span>
+              <div>
+                <strong>Internet Banking</strong>
+                <p style="font-size: 12px; color: var(--text-muted);">Supports SBI, HDFC, ICICI, Axis, PNB and 50+ major banks</p>
+              </div>
+            </div>
+            <div style="padding: 12px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 8px; display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 24px;">💵</span>
+              <div>
+                <strong>Cash / UPI on Delivery (COD)</strong>
+                <p style="font-size: 12px; color: var(--text-muted);">Hand over cash or scan driver's mobile device when delivered</p>
+              </div>
+            </div>
+          </div>
+          <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button class="btn btn-outline" onclick="document.getElementById('payment-demo-modal').classList.remove('active')">Close</button>
+            <a href="payment.html?ref=BK-2026-9042" class="btn btn-primary">Try Live Payment Page →</a>
+          </div>
+        </div>
+      `;
+      modal.classList.add('active');
+    }
+
+    // Modal: Govt Subsidy Explainer
+    function openSubsidyModal() {
+      let modal = document.getElementById('subsidy-demo-modal');
+      if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'subsidy-demo-modal';
+        modal.className = 'modal-overlay';
+        document.body.appendChild(modal);
+      }
+
+      modal.innerHTML = `
+        <div class="modal-card" style="max-width: 520px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <span style="font-size: 24px;">💰</span>
+              <h3 style="font-size: 18px;">Direct Benefit Transfer (DBTL) Subsidy</h3>
+            </div>
+            <button onclick="document.getElementById('subsidy-demo-modal').classList.remove('active')" style="background: none; border: none; font-size: 22px; cursor: pointer;">✕</button>
+          </div>
+          <div style="background: var(--success-light); border: 1px solid #a7f3d0; padding: 14px; border-radius: var(--radius-md); margin-bottom: 16px;">
+            <strong style="color: #065f46; font-size: 14px;">Instant ₹200 Subsidy Discount Available!</strong>
+            <p style="font-size: 13px; color: #047857; margin-top: 4px;">
+              Under Government DBTL / PAHAL scheme, domestic 14.2kg refills are subsidized from ₹1,050 to ₹850.
+            </p>
+          </div>
+          <h4 style="font-size: 14px; margin-bottom: 8px;">Eligibility Criteria:</h4>
+          <ul style="font-size: 13px; color: var(--text-muted); margin-left: 20px; margin-bottom: 20px; line-height: 1.7;">
+            <li>Valid Aadhaar card linked with active LPG Consumer ID</li>
+            <li>Direct Bank Account (DBT) enabled for LPG transfers</li>
+            <li>Annual household income under the standard subsidy cap</li>
+            <li>Applicable on standard 14.2kg Domestic Refill cylinders</li>
+          </ul>
+          <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button class="btn btn-outline" onclick="document.getElementById('subsidy-demo-modal').classList.remove('active')">Got It</button>
+            <a href="register.html" class="btn btn-primary">Apply with New Connection →</a>
+          </div>
+        </div>
+      `;
+      modal.classList.add('active');
+    }
+
+    // Check if user is logged in
+    const currentUser = DB.getCurrentUser();
+    const authBox = document.getElementById('auth-buttons');
+    if (currentUser) {
+      authBox.innerHTML = `
+        <a href="dashboard.html" class="btn btn-primary">My Dashboard (${currentUser.fullName.split(' ')[0]})</a>
+        <button onclick="DB.logoutUser(); location.reload();" class="btn btn-outline">Logout</button>
+      `;
+    }
+
+    // Render Cylinder Catalog
+    const catalogContainer = document.getElementById('cylinder-catalog-grid');
+    const cylinders = DB.getCylinders();
+    catalogContainer.innerHTML = cylinders.map(c => `
+      <div class="cylinder-card ${c.popular ? 'featured' : ''}">
+        ${c.popular ? '<span class="badge badge-popular">Most Popular</span>' : ''}
+        <div class="cylinder-icon">${c.icon || '🛢️'}</div>
+        <h3>${c.cylinderType}</h3>
+        <div class="weight-tag">${c.weightKg} kg Net Weight</div>
+        <p class="price">${formatCurrency(c.price)} <span>/ Refill</span></p>
+        <p class="subsidy-note">${c.subsidyAmount > 0 ? `Includes ₹${c.subsidyAmount} Direct Govt Subsidy` : 'Standard Commercial / Domestic Rate'}</p>
+        <ul class="features-list">
+          <li>✔️ ${c.description}</li>
+          <li>✔️ Certified ISI safety rubber ring & valve</li>
+          <li>✔️ Available in stock: <strong>${c.stockQuantity} units</strong></li>
+        </ul>
+        <a href="${currentUser ? `book-cylinder.html?id=${c.cylinderId}` : 'login.html'}" class="btn ${c.popular ? 'btn-primary' : 'btn-outline'} btn-block">
+          Book ${c.weightKg}kg Cylinder
+        </a>
+      </div>
+    `).join('');
+  </script>
+</body>
+</html>
